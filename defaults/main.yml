@@ -1,0 +1,92 @@
+---
+# defaults file for ansible-nomad-server
+
+## Core
+nomad_debug: false
+
+### Package
+nomad_version: "{{ lookup('env','NOMAD_VERSION') | default('0.10.2', true) }}"
+nomad_architecture_map:
+  amd64: amd64
+  x86_64: amd64
+  armv7l: arm
+  aarch64: arm64
+  32-bit: "386"
+  64-bit: amd64
+nomad_architecture: "{{ nomad_architecture_map[ansible_architecture] }}"
+nomad_pkg: "nomad_{{ nomad_version }}_linux_{{nomad_architecture}}.zip"
+nomad_zip_url: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version }}_linux_{{nomad_architecture}}.zip"
+nomad_checksum_file_url: "https://releases.hashicorp.com/nomad/{{ nomad_version }}/nomad_{{ nomad_version}}_SHA256SUMS"
+
+### nomad user and group definition
+nomad_user: "nomad"
+nomad_group: "nomad"
+
+### nomad directories
+nomad_bin_dir: "/usr/local/bin"
+nomad_config_dir: "/etc/nomad.d"
+nomad_data_dir: "/opt/nomad"
+nomad_lockfile: "/var/lock/subsys/nomad"
+nomad_run_dir: "/var/run/nomad"
+
+### Nomad base settings
+nomad_datacenter: "dc1"
+nomad_region: "global"
+nomad_log_level: "INFO"
+nomad_syslog_enable: true
+nomad_iface: ""
+nomad_node_name: "{{ inventory_hostname_short }}"
+nomad_node_role: "{{ lookup('env','NOMAD_NODE_ROLE') | default('client', true) }}"
+nomad_leave_on_terminate: true
+nomad_leave_on_interrupt: false
+nomad_disable_update_check: false
+
+#### Server settings
+nomad_retry_max: 0
+nomad_retry_join: false
+nomad_retry_interval: "30s"
+nomad_rejoin_after_leave: false
+nomad_enabled_schedulers:
+  - service
+  - batch
+  - system
+nomad_num_schedulers: "{{ ansible_processor_vcpus }}"
+nomad_node_gc_threshold: "24h"
+nomad_job_gc_threshold: "4h"
+nomad_eval_gc_threshold: "1h"
+nomad_encrypt: ""
+
+### Addresses
+nomad_bind_address: ""
+nomad_advertise_address: ""
+
+### Ports
+nomad_ports:
+  http: "{{ nomad_ports_http | default('4646', true) }}"
+  rpc: "{{ nomad_ports_rpc | default('4647', true) }}"
+  serf: "{{ nomad_ports_serf | default('4648', true) }}"
+
+### Servers
+nomad_group_name: "nomad_instances"
+nomad_servers: ""
+
+### ACLs
+nomad_acl_enabled: "{{ lookup('env', 'NOMAD_ACL_ENABLED') | default('no', true) }}"
+nomad_acl_token_ttl: "30s"
+nomad_acl_policy_ttl: "30s"
+nomad_acl_replication_token: ""
+
+### TLS
+nomad_ca_file: ""
+nomad_cert_file: ""
+nomad_key_file: ""
+nomad_verify_server_hostname: false
+nomad_verify_https_client: false
+
+### Consul integration
+nomad_use_consul: false
+nomad_consul_address: "localhost:8500"
+nomad_consul_token: ""
+nomad_consul_servers_service_name: "nomad-servers"
+nomad_consul_clients_service_name: "nomad-clients"
+nomad_consul_tags: {}

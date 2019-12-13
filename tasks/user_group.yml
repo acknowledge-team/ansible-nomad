@@ -1,0 +1,14 @@
+---
+# File user_group.yml : used to create nomad user and group on the server
+
+- name: Ensure Nomad group has been created
+  group:
+    name: "{{ nomad_group }}"
+    state: present
+
+- name: Ensure Nomad user has been created
+  user:
+    name: "{{ nomad_user }}"
+    comment: "Nomad user"
+    group: "{{ nomad_group }}"
+    system: yes

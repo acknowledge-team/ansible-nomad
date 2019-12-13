@@ -1,0 +1,19 @@
+---
+- name: Ensure required OS packages are installed
+  package:
+    name: "{{ item }}"
+    state: present
+  with_items: "{{ nomad_os_packages }}"
+
+- name: Ensure bin, data and config directories have been created
+  file:
+    dest: "{{ item }}"
+    state: directory
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    mode: 0755
+  with_items:
+    - "{{ nomad_data_dir }}"
+    - "{{ nomad_bin_dir }}"
+    - "{{ nomad_config_dir }}"
+    - "{{ nomad_run_dir }}"

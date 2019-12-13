@@ -1,0 +1,9 @@
+---
+# vars file for ansible-nomad-server
+
+nomad_os_packages:
+  - cgroup-bin
+  - curl
+  - git
+  - libcgroup1
+  - unzip

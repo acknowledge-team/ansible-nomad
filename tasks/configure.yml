@@ -1,0 +1,42 @@
+
+---
+- name: Nomad base configuration
+  template:
+    src: base.hcl.j2
+    dest: "{{ nomad_config_dir }}/base.hcl"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    mode: 0644
+  notify:
+    - restart nomad
+
+- name: Nomad server configuration
+  template:
+    src: server.hcl.j2
+    dest: "{{ nomad_config_dir }}/server.hcl"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    mode: 0644
+  notify:
+    - restart nomad
+  when: "{{ nomad_node_role }} == server"
+
+- name: Ensure systemd script has been defined
+  template:
+    src: nomad_systemd.service.j2
+    dest: /lib/systemd/system/nomad.service
+    owner: root
+    group: root
+    mode: 0644
+  when: ansible_service_mgr == "systemd"
+
+- name: Ensure systemd systemd daemon has been reloaded
+  systemd:
+    daemon_reload: true
+  when: ansible_service_mgr == "systemd"
+
+- name: Ensure nomad service has been enabled and started
+  service:
+    name: nomad
+    enabled: true
+    state: started
