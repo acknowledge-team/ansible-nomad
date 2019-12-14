@@ -19,7 +19,7 @@
     mode: 0644
   notify:
     - restart nomad
-  when: "{{ nomad_node_role }} == server"
+  when: nomad_node_role == "server"
 
 - name: Ensure systemd script has been defined
   template:
