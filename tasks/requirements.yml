@@ -17,3 +17,17 @@
     - "{{ nomad_bin_dir }}"
     - "{{ nomad_config_dir }}"
     - "{{ nomad_run_dir }}"
+
+- name: Extract systemd version
+  shell: |
+    set -o pipefail
+    systemctl --version systemd | head -n 1 | cut -d' ' -f2
+  args:
+    executable: /bin/bash
+  changed_when: false
+  check_mode: false
+  register: systemd_version
+  when:
+    - ansible_service_mgr == "systemd"
+    - not ansible_os_family == "FreeBSD"
+    - not ansible_os_family == "Solaris"
