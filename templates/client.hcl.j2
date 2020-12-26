@@ -1,4 +1,7 @@
 client {
   enabled = true
   servers = [{% for server in nomad_servers -%}"{{ server }}"{%- endfor -%}]
+  options = {
+    "driver.allowlist" = "{{ nomad_driver_allowlist }}"
+  }
 }

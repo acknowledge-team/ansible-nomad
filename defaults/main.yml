@@ -91,3 +91,6 @@ nomad_consul_token: ""
 nomad_consul_servers_service_name: "nomad-servers"
 nomad_consul_clients_service_name: "nomad-clients"
 nomad_consul_tags: {}
+
+### Drivers management
+nomad_driver_allowlist: "docker"
