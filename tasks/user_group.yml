@@ -22,4 +22,4 @@
     group: "{{ nomad_group }}"
     groups: "{{ docker_group }}"
     system: yes
-  when: nomad_docker_enabled == true
+  when: nomad_docker_enabled == true and nomad_node_role == "client"
