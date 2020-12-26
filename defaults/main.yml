@@ -46,6 +46,7 @@ nomad_retry_max: 0
 nomad_retry_join: false
 nomad_retry_interval: "30s"
 nomad_rejoin_after_leave: false
+nomad_bootstrap_expect: 1
 nomad_enabled_schedulers:
   - service
   - batch
