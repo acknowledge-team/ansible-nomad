@@ -12,3 +12,14 @@
     comment: "Nomad user"
     group: "{{ nomad_group }}"
     system: yes
+  when: nomad_docker_enabled == false
+
+
+- name: Ensure Nomad user has been created and added to docker group
+  user:
+    name: "{{ nomad_user }}"
+    comment: "Nomad user"
+    group: "{{ nomad_group }}"
+    groups: "{{ docker_group }}"
+    system: yes
+  when: nomad_docker_enabled == true

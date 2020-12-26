@@ -94,3 +94,7 @@ nomad_consul_tags: {}
 
 ### Drivers management
 nomad_driver_allowlist: "docker"
+
+### Docker driver
+nomad_docker_enabled: true
+docker_group: "docker"
