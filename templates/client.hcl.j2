@@ -1,0 +1,8 @@
+client {
+  enabled = true
+  servers = [
+    {% for server in nomad_servers -%}
+      {{ server }}
+    {%- endfor -%}
+  ]
+}

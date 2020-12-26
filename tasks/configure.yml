@@ -21,6 +21,17 @@
     - restart nomad
   when: nomad_node_role == "server"
 
+- name: Nomad client configuration
+  template:
+    src: client.hcl.j2
+    dest: "{{ nomad_config_dir }}/client.hcl"
+    owner: "{{ nomad_user }}"
+    group: "{{ nomad_group }}"
+    mode: 0644
+  notify:
+    - restart nomad
+  when: nomad_node_role == "client"
+
 - name: Ensure systemd script has been defined
   template:
     src: nomad_systemd.service.j2
