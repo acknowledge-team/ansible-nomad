@@ -20,6 +20,9 @@ ports {
 {% if nomad_use_consul | bool == true %}
 consul {
     address = "{{ nomad_consul_address }}"
+    {% if consul_acl_enabled | bool == true %}
+    token = "{{ nomad_consul_token }}"
+    {% endif %}
     server_service_name = "{{ nomad_consul_servers_service_name }}"
     client_service_name = "{{ nomad_consul_clients_service_name }}"
 
