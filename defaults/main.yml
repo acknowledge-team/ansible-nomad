@@ -88,7 +88,7 @@ nomad_verify_https_client: false
 nomad_use_consul: false
 consul_acl_enabled: true
 nomad_consul_address: "localhost:8500"
-nomad_consul_namespace: "nomad"
+nomad_consul_namespace: "default"
 nomad_consul_token: ""
 nomad_consul_servers_service_name: "nomad-servers"
 nomad_consul_clients_service_name: "nomad-clients"
